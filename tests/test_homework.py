@@ -1,5 +1,5 @@
 from datetime import time
-
+from operator import itemgetter
 
 
 def test_dark_theme_by_time():
@@ -53,11 +53,26 @@ def test_find_suitable_user():
     ]
 
     # TODO найдите пользователя с именем "Olga"
-    suitable_users = None
+
+    def get_user_by_name(name):
+        for user in users:
+            if user['name'] == 'Olga':
+                return user
+
+    suitable_users = get_user_by_name("Olga")
     assert suitable_users == {"name": "Olga", "age": 45}
 
     # TODO найдите всех пользователей младше 20 лет
-    suitable_users = None
+    def get_users_younger_than_age(age: int):
+        young_users = []
+        for user in users:
+            print(user)
+            if user['age'] < age:
+                young_users.append(user)
+        return young_users
+
+    users.sort(key=itemgetter("age"))
+    suitable_users = get_users_younger_than_age(20)
     assert suitable_users == [
         {"name": "Stanislav", "age": 15},
         {"name": "Maria", "age": 18},
